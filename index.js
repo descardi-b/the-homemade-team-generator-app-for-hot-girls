@@ -139,17 +139,17 @@ function addIntern() {
 function renderPage() {
 
     // Loop through the employees to print out all cards
-    let managerCard = fs.readFile('./templates/manager.html', 'utf8', function (err, data) {
+    fs.readFile('./templates/main.html', 'utf8', function (err, data) {
         if (err) {
             throw err;
         }
         console.log(`here is the ${manager.getName()}`);
         // console.log(data);
-        let result = data.replace('{{name}}', manager.getName());
-        result = result.replace('{{id}}', manager.getId());
-        result = result.replace('{{email}}', manager.getEmail());
+        let result = data.replace('{{managerName}}', manager.getName());
+        result = result.replace('{{managerId}}', manager.getId());
+        result = result.replace('{{managerEmail}}', manager.getEmail());
         result = result.replace('{{officeNumber}}', manager.getOfficeNumber());
-        fs.writeFile('./templates/manager.html', result, 'utf8', function(err) {
+        fs.writeFile('./templates/main.html', result, 'utf8', function(err) {
             if (err) {
                 return console.log(err);
             }
@@ -161,30 +161,11 @@ function renderPage() {
     // Append all of the team members after manager
     //=====================================================
 
-    let cards = [managerCard]; // Initial cards only has the Manager card info.
-
     for (let i = 0; i < teamMembers.length; i++) {
         let employee = teamMembers[i];
-        // Cards adds and then equals every new employee card info.
-        let employeeArr = renderEmployee(employee);
-        cards.push(employeeArr);
-        console.log(cards);
+        renderEmployee(employee);
     }
 
-    console.log(cards);
-
-    // let main = fs.readFile('./templates/main.html', 'utf8', function (err, data) {
-    //     if (err) {
-    //         throw err;
-    //     }
-    //      // Adds cards to main.html and outputs to team.html.
-    //     let result = data.replace('{{cards}}', cards)
-    //     fs.writeFile('./templates/main.html', result, function (err) {
-    //         if (err) {
-    //             return err;
-    //         }
-    //     });
-    // });
 
     // Console.log that the html has been generated
     console.log("The codingteam.html has been successfully generated!");
@@ -194,17 +175,17 @@ function renderPage() {
 
 function renderEmployee(employee) {
     if (employee.getRole() === "Intern") {
-        fs.readFile('./templates/intern.html', 'utf8', function (err, data) {
+        fs.writeFile('./templates/main.html', 'utf8', function (err, data) {
             if (err) {
                 throw err;
             }
             console.log(`here is the ${intern.getName()}`);
             // console.log(data);
-            var result = data.replace('{{name}}', intern.getName());
-            result = result.replace('{{id}}', intern.getId());
-            result = result.replace('{{email}}', intern.getEmail());
-            result = result.replace('{{school}}', intern.getSchool());
-            fs.writeFile('./templates/intern.html', result, 'utf8', function(err) {
+            let internData = data.replace('{{internName}}', intern.getName());
+            internData = internData.replace('{{internId}}', intern.getId());
+            internData = internData.replace('{{internEmail}}', intern.getEmail());
+            internData = internData.replace('{{school}}', intern.getSchool());
+            fs.appendFile('./templates/main.html', internData, 'utf8', function(err) {
                 if (err) {
                     return console.log(err);
                 }
@@ -212,17 +193,17 @@ function renderEmployee(employee) {
         });
     } else if (employee.getRole() === "Engineer") {
 
-        fs.readFile('./templates/engineer.html', 'utf8', function (err, data) {
+        fs.readFile('./templates/main.html', 'utf8', function (err, data) {
             if (err) {
                 throw err;
             }
             console.log(`here is the ${engineer.getName()}`);
             // console.log(data);
-            var result = data.replace('{{name}}', engineer.getName());
-            result = result.replace('{{id}}', engineer.getId());
-            result = result.replace('{{email}}', engineer.getEmail());
-            result = result.replace('{{github}}', engineer.getGithub());
-            fs.writeFile('./templates/engineer.html', result, 'utf8', function(err) {
+            let engineerData = data.replace('{{engineerName}}', engineer.getName());
+            engineerData = engineerData.replace('{{engineerId}}', engineer.getId());
+            engineerData = engineerData.replace('{{engineerEmail}}', engineer.getEmail());
+            engineerData = engineerData.replace('{{github}}', engineer.getGithub());
+            fs.writeFile('./templates/main.html', engineerData, 'utf8', function(err) {
                 if (err) {
                     return console.log(err);
                 }

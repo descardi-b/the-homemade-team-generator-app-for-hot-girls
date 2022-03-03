@@ -20,6 +20,63 @@
 
         {{cards}}
 
+        <div class="card hovercard">
+            <div class="cardheader">
+                <div class="card-heading">
+                    {{managerName}}
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="desc">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">ID: {{managerId}}</li>
+                        <li class="list-group-item">Email: {{managerEmail}}</li>
+                        <li class="list-group-item">{{officeNumber}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--Engineer card-->
+
+        <div class="card hovercard">
+            <div class="cardheader">
+                <div class="card-heading">
+                    {{engineerName}}
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="desc">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">ID: {{engineerId}}</li>
+                        <li class="list-group-item">Email: {{engineerEmail}}</li>
+                        <a href="{{github}}">
+                            <li class="list-group-item">Github</li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--Intern card-->
+
+        <div class="card hovercard">
+            <div class="cardheader">
+                <div class="card-heading">
+                    {{internName}}
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="desc">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">ID: {{internId}}</li>
+                        <li class="list-group-item">Email: {{internEmail}}</li>
+                        <li class="list-group-item">School: {{school}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <footer>
