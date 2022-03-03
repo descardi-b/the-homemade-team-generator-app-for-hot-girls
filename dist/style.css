@@ -1,0 +1,23 @@
+.bg-primary {
+    background-color: lightpink;
+}
+
+.bg-info {
+    background-color: rgb(255, 211, 230);
+}
+
+.bg-head {
+    text-align: center;
+    background-color:rgb(255, 232, 242);
+    border-radius: 15%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+.text-primary {
+    color: rgb(255, 162, 176);
+}
+
+.text-light {
+    color: white;
+}
