@@ -4,41 +4,23 @@ const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
+const { managerPage, internPage, engineerPage } = require('./templates/employee-templates');
+const { upperMain, lowerMain } = require('./templates/main-template');
+const { managerPrompt, engineerPrompt, internPrompt } = require('./inquirer-prompts');
 
+// initialize the starter html template
+const htmlTemp = [upperMain()];
 const teamMembers = [];
-let manager;
-let engineer;
-let intern;
+let manager, engineer, intern;
 
-// create object after .then in promise
-
-function managerData() {
+// TODO: rename this function
+function startTeam() {
     inquirer
-        .prompt([{
-            type: 'input',
-            name: 'managerName',
-            message: `What is your manager's name?`,
-        },
-        {
-            type: 'input',
-            name: 'managerId',
-            message: `What is your manager's ID?`,
-        },
-        {
-            type: 'input',
-            name: 'managerEmail',
-            message: `What is your manager's email address?`,
-        },
-        {
-            type: 'input',
-            name: 'officeNumber',
-            message: `What is your manager's office number?`,
-        },
-        ])
+        .prompt(managerPrompt)
         .then(function (managerAnswers) {
     
             manager = new Manager(managerAnswers.managerName, managerAnswers.managerId, managerAnswers.managerEmail, managerAnswers.officeNumber);
-            console.log(manager);
+            teamMembers.push(manager);
             teamPrompt();
         })
 }
@@ -71,28 +53,7 @@ function teamPrompt() {
 
 function addEngineer() {
     inquirer
-        .prompt([
-            {
-                type: 'input',
-                name: 'engineerName',
-                message: `What is your engineer's name?`,
-            },
-            {
-                type: 'input',
-                name: 'engineerId',
-                message: `What is your engineer's ID?`,
-            },
-            {
-                type: 'input',
-                name: 'engineerEmail',
-                message: `What is your engineer's email address?`,
-            },
-            {
-                type: 'input',
-                name: 'engineerGit',
-                message: `What is your engineer's GitHub address?`,
-            },
-        ])
+        .prompt(engineerPrompt)
         .then(function (engineerAnswers) {
             engineer = new Engineer(engineerAnswers.engineerName, engineerAnswers.engineerId, engineerAnswers.engineerEmail, engineerAnswers.engineerGit)
             console.log(engineer);
@@ -104,28 +65,7 @@ function addEngineer() {
 
 function addIntern() {
     inquirer
-        .prompt([
-            {
-                type: 'input',
-                name: 'internName',
-                message: `What is your intern's name?`,
-            },
-            {
-                type: 'input',
-                name: 'internId',
-                message: `What is your intern's ID?`,
-            },
-            {
-                type: 'input',
-                name: 'internEmail',
-                message: `What is your intern's email address?`,
-            },
-            {
-                type: 'input',
-                name: 'internSchool',
-                message: `What school does your intern go to?`,
-            },
-        ])
+        .prompt(internPrompt)
         .then(function (internAnswers) {
 
             intern = new Intern(internAnswers.internName, internAnswers.internId, internAnswers.internEmail, internAnswers.internSchool);
@@ -138,78 +78,36 @@ function addIntern() {
 
 function renderPage() {
 
-    // Loop through the employees to print out all cards
-    fs.readFile('./templates/main.html', 'utf8', function (err, data) {
-        if (err) {
-            throw err;
-        }
-        console.log(`here is the ${manager.getName()}`);
-        // console.log(data);
-        let result = data.replace('{{managerName}}', manager.getName());
-        result = result.replace('{{managerId}}', manager.getId());
-        result = result.replace('{{managerEmail}}', manager.getEmail());
-        result = result.replace('{{officeNumber}}', manager.getOfficeNumber());
-        fs.writeFile('./templates/main.html', result, 'utf8', function(err) {
-            if (err) {
-                return console.log(err);
-            }
-        });
-    });
-
-
-    //=====================================================
-    // Append all of the team members after manager
-    //=====================================================
+    // manager render employee function
 
     for (let i = 0; i < teamMembers.length; i++) {
         let employee = teamMembers[i];
         renderEmployee(employee);
     }
 
-
-    // Console.log that the html has been generated
-    console.log("The codingteam.html has been successfully generated!");
+    // append the lower half to the template array
+    htmlTemp.push(lowerMain());
+    // concatenate the array as a string
+    let mainPage = htmlTemp.join('\n');
+    fs.writeFile('./public/main.html', mainPage, 'utf8', function (err, data) {
+        if (err) {
+            throw err;
+        }
+        console.log(`Your coding team has been written to the main.html file!`);
+    })
 }
 
 // renderEmployee function called above
 
 function renderEmployee(employee) {
     if (employee.getRole() === "Intern") {
-        fs.writeFile('./templates/main.html', 'utf8', function (err, data) {
-            if (err) {
-                throw err;
-            }
-            console.log(`here is the ${intern.getName()}`);
-            // console.log(data);
-            let internData = data.replace('{{internName}}', intern.getName());
-            internData = internData.replace('{{internId}}', intern.getId());
-            internData = internData.replace('{{internEmail}}', intern.getEmail());
-            internData = internData.replace('{{school}}', intern.getSchool());
-            fs.appendFile('./templates/main.html', internData, 'utf8', function(err) {
-                if (err) {
-                    return console.log(err);
-                }
-            });
-        });
+        htmlTemp.push(internPage(employee));
     } else if (employee.getRole() === "Engineer") {
-
-        fs.readFile('./templates/main.html', 'utf8', function (err, data) {
-            if (err) {
-                throw err;
-            }
-            console.log(`here is the ${engineer.getName()}`);
-            // console.log(data);
-            let engineerData = data.replace('{{engineerName}}', engineer.getName());
-            engineerData = engineerData.replace('{{engineerId}}', engineer.getId());
-            engineerData = engineerData.replace('{{engineerEmail}}', engineer.getEmail());
-            engineerData = engineerData.replace('{{github}}', engineer.getGithub());
-            fs.writeFile('./templates/main.html', engineerData, 'utf8', function(err) {
-                if (err) {
-                    return console.log(err);
-                }
-            });
-        });
+        htmlTemp.push(engineerPage(employee));
+    }
+    else {
+        htmlTemp.push(managerPage(employee));
     }
 }
 
-managerData();
+startTeam();
