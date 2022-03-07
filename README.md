@@ -20,3 +20,4 @@ This application was created for the UC Berkeley Full Stack Development program.
 
 ## Images
 Here are some screenshots of a sample HTML file generated using the app.
+<img alt="a screenshot of the team generator app" src="./images/team-generator-app-1.png">
