@@ -16,7 +16,7 @@ To initialize the app:
 This application was created for the UC Berkeley Full Stack Development program. It utilizes: 
 
 - HTML, CSS, and Javascript
-- Node.js (Jest, Inquirere, fs)
+- Node.js (Jest, Inquirer, fs)
 
 ## Images
 Here are some screenshots of a sample HTML file generated using the app.
