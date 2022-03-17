@@ -19,5 +19,5 @@ This application was created for the UC Berkeley Full Stack Development program.
 - Node.js (Jest, Inquirer, fs)
 
 ## Images
-Here are some screenshots of a sample HTML file generated using the app.
+Here are some screenshots of a sample HTML file generated using the app, as well as a <a href="https://drive.google.com/file/d/16MvUQqRPX2Q6rV8nGvcLeffSlOgSBorV/view">link</a> to a walkthrough video. 
 <img alt="a screenshot of the team generator app" src="./images/team-generator-app-1.png">
